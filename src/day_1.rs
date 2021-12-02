@@ -26,12 +26,13 @@ pub fn prob_2(input: &str) -> Result<String, Box<dyn Error>> {
         nums.push(num);
     }
     let mut count = 0;
-    for i in 3..nums.len() {
-        let prev_tot = nums[i - 1] + nums[i - 2] + nums[i - 3];
+    let mut prev_tot = i32::MAX;
+    for i in 2..nums.len() {
         let cur_tot = nums[i] + nums[i - 1] + nums[i - 2];
         if cur_tot > prev_tot {
             count += 1;
         }
+        prev_tot = cur_tot;
     }
     Ok(count.to_string())
 }
