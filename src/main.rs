@@ -1,7 +1,7 @@
 mod day_1;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let args: Vec<_> = std::env::args().collect();
+    let args: Vec<String> = std::env::args().collect();
     if args.len() != 3 {
         return Err(format!("{} requires exactly 2 args", args[0]).into());
     }
