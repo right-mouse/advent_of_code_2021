@@ -104,33 +104,35 @@ impl Line {
 }
 
 struct Grid {
-    lines: Vec<Line>,
+    intersections: Vec<Vec<u16>>,
 }
 
 impl Grid {
-    fn get_intersections(
-        &self,
-        treshold: u16,
-        include_diag: bool,
-    ) -> Result<Vec<(u16, u16)>, Box<dyn Error>> {
+    fn new(lines: Vec<Line>, include_diag: bool) -> Result<Self, Box<dyn Error>> {
         let mut rows: usize = 0;
         let mut cols: usize = 0;
-        for line in self.lines.iter() {
+        for line in lines.iter() {
             rows = max(cols, line.max_y() as usize);
             cols = max(rows, line.max_x() as usize);
         }
-        let mut intersections = vec![vec![0 as u16; cols + 1]; rows + 1];
-        for line in self.lines.iter() {
+        let mut grid = Grid {
+            intersections: vec![vec![0 as u16; cols + 1]; rows + 1],
+        };
+        for line in lines.iter() {
             if include_diag || (line.is_horizontal() || line.is_vertical()) {
                 for point in line.points()?.iter() {
-                    intersections[point.0 as usize][point.1 as usize] += 1;
+                    grid.intersections[point.0 as usize][point.1 as usize] += 1;
                 }
             }
         }
+        Ok(grid)
+    }
+
+    fn get_intersections(&self, treshold: u16) -> Result<Vec<(u16, u16)>, Box<dyn Error>> {
         let mut points: Vec<(u16, u16)> = Vec::new();
-        for x in 0..rows {
-            for y in 0..cols {
-                if intersections[x][y] >= treshold {
+        for x in 0..self.intersections.len() {
+            for y in 0..self.intersections[0].len() {
+                if self.intersections[x][y] >= treshold {
                     points.push((x as u16, y as u16));
                 }
             }
@@ -146,8 +148,8 @@ pub fn prob_1(input: &str) -> Result<String, Box<dyn Error>> {
     for line in reader.lines() {
         lines.push(line?.parse()?);
     }
-    let grid = Grid { lines: lines };
-    Ok(format!("{}", grid.get_intersections(2, false)?.len()))
+    let grid = Grid::new(lines, false)?;
+    Ok(format!("{}", grid.get_intersections(2)?.len()))
 }
 
 pub fn prob_2(input: &str) -> Result<String, Box<dyn Error>> {
@@ -157,6 +159,6 @@ pub fn prob_2(input: &str) -> Result<String, Box<dyn Error>> {
     for line in reader.lines() {
         lines.push(line?.parse()?);
     }
-    let grid = Grid { lines: lines };
-    Ok(format!("{}", grid.get_intersections(2, true)?.len()))
+    let grid = Grid::new(lines, true)?;
+    Ok(format!("{}", grid.get_intersections(2)?.len()))
 }
