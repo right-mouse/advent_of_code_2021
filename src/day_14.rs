@@ -1,5 +1,5 @@
 use std::cmp::Reverse;
-use std::collections::{BTreeSet, BinaryHeap, HashMap};
+use std::collections::{BinaryHeap, HashMap};
 use std::error::Error;
 use std::str::FromStr;
 
@@ -103,13 +103,13 @@ impl Polymer {
 pub fn prob_1(input: &str) -> Result<String, Box<dyn Error>> {
     let mut polymer: Polymer = std::fs::read_to_string(input)?.parse()?;
     polymer.advance_steps(10);
-    let counts: BTreeSet<usize> = polymer.freq_count().iter().map(|&f| f.0).collect();
-    Ok((counts.iter().next_back().unwrap() - counts.iter().next().unwrap()).to_string())
+    let counts = polymer.freq_count();
+    Ok((counts.iter().next().unwrap().0 - counts.iter().next_back().unwrap().0).to_string())
 }
 
 pub fn prob_2(input: &str) -> Result<String, Box<dyn Error>> {
     let mut polymer: Polymer = std::fs::read_to_string(input)?.parse()?;
     polymer.advance_steps(40);
-    let counts: BTreeSet<usize> = polymer.freq_count().iter().map(|&f| f.0).collect();
-    Ok((counts.iter().next_back().unwrap() - counts.iter().next().unwrap()).to_string())
+    let counts = polymer.freq_count();
+    Ok((counts.iter().next().unwrap().0 - counts.iter().next_back().unwrap().0).to_string())
 }
