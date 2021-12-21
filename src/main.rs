@@ -1,6 +1,7 @@
 mod day_1;
 mod day_2;
 mod day_3;
+mod day_4;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = std::env::args().collect();
@@ -24,6 +25,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         3 => match problem {
             1 => println!("{}", day_3::prob_1("input/day_3.txt")?),
             2 => println!("{}", day_3::prob_2("input/day_3.txt")?),
+            _ => return Err(format!("{} is an invalid problem", problem).into()),
+        },
+        4 => match problem {
+            1 => println!("{}", day_4::prob_1("input/day_4.txt")?),
+            2 => println!("{}", day_4::prob_2("input/day_4.txt")?),
             _ => return Err(format!("{} is an invalid problem", problem).into()),
         },
         _ => return Err(format!("{} is an invalid day", day).into()),
