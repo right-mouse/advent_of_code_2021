@@ -27,8 +27,14 @@ impl FromStr for BingoBoard {
         for (i, x) in lines.into_iter().enumerate() {
             let nums: Vec<&str> = x
                 .split(" ")
-                .map(|n| n.trim())
-                .filter(|n| !n.is_empty())
+                .filter_map(|n| {
+                    let t = n.trim();
+                    if !t.is_empty() {
+                        Option::from(t)
+                    } else {
+                        None
+                    }
+                })
                 .collect();
             if nums.len() != BINGO_BOARD_DIM {
                 return Err(format!(
