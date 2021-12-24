@@ -26,7 +26,7 @@ impl FromStr for Area {
         }
         let x_parts = sub_parts[0].split("=").collect::<Vec<_>>();
         let y_parts = sub_parts[1].split("=").collect::<Vec<_>>();
-        if x_parts.len() != 2 || y_parts.len() != 2 || x_parts[0] != "x" && y_parts[0] != "y" {
+        if x_parts.len() != 2 || y_parts.len() != 2 || x_parts[0] != "x" || y_parts[0] != "y" {
             return err_malformed_input;
         }
         let x_bounds = x_parts[1].split("..").collect::<Vec<_>>();
