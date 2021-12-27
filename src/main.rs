@@ -1,5 +1,6 @@
 mod day_1;
 mod day_2;
+mod day_23;
 mod day_3;
 mod day_4;
 
@@ -30,6 +31,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         4 => match problem {
             1 => println!("{}", day_4::prob_1("input/day_4.txt")?),
             2 => println!("{}", day_4::prob_2("input/day_4.txt")?),
+            _ => return Err(format!("{} is an invalid problem", problem).into()),
+        },
+        23 => match problem {
+            1 => println!("{}", day_23::prob_1("input/day_23.txt")?),
+            2 => println!("{}", day_23::prob_2("input/day_23.txt")?),
             _ => return Err(format!("{} is an invalid problem", problem).into()),
         },
         _ => return Err(format!("{} is an invalid day", day).into()),
