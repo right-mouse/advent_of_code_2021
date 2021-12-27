@@ -1,6 +1,5 @@
 use std::error::Error;
 use std::str::FromStr;
-use std::thread;
 
 const HALLWAY_LOCS: [usize; 7] = [0, 1, 3, 5, 7, 9, 10];
 
